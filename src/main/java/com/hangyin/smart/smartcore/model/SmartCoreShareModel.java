@@ -12,15 +12,23 @@ public class SmartCoreShareModel {
 
     public SmartCoreShareModel(Object value) {
         this.value = value;
-        this.referenceNum = 1;
+        this.referenceNum = 0;
+    }
+
+    public SmartCoreShareModel use() {
+        referenceNum ++;
+        return this;
     }
 
     public Object get() {
-        referenceNum ++;
         return value;
     }
 
-    public Object close() {
+    public int useNum() {
+        return referenceNum;
+    }
+
+    public Object revert() {
         referenceNum --;
         if(0 == referenceNum) {
             return value;

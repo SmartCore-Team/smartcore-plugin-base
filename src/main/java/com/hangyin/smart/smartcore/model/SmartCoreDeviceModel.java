@@ -120,14 +120,17 @@ public class SmartCoreDeviceModel {
         return Optional.ofNullable(this.getProperty(propertyId)).map(SmartCorePropertyModel::getFriendlyName).orElse(null);
     }
 
-    public Boolean setPropertyValue(String propertyId, Object value, ISmartCoreSetPropertyValueFunction setPropertyValueFunction, ISmartCoreDevicePropertyValueChangeNotifyFunction notifyFunction) {
+    public Boolean setPropertyValue(String propertyId, Object value, ISmartCoreSetPropertyValueFunction setPropertyValueFunction,
+        ISmartCoreDevicePropertyValueChangeNotifyFunction notifyFunction, boolean checkReadOnly) {
         SmartCorePropertyModel propertyObj = this.getProperty(propertyId);
         if(null == propertyObj) {
             return false;
         }
 
-        if(propertyObj.isReadOnly()) {
-            return false;
+        if(checkReadOnly) {
+            if (propertyObj.isReadOnly()) {
+                return false;
+            }
         }
 
         if(null == propertyObj.getValueType()) {
